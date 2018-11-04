@@ -1,34 +1,36 @@
-# python3 rpn.py
+#!/usr/bin/env python3
 
-def calculate(arg):
-	stack = []
+import operator
 
-	tokens = arg.split()
 
-	for token in tokens:
-		try:
-			stack.append(int(token))
-		except ValueError:
-			val2 = stack.pop()
-			val1 = stack.pop()
-			if token == '+':
-				result = val1 + val2
-			elif token == '-':
-				result = val1 - val2
+operators = {
+    '+': operator.add,
+    '-': operator.sub,
+    '*': operator.mul,
+    '/': operator.truediv,
+}
 
-			stack.append(result)
-	if len(stack) > 1:
-		raise ValueError('Too many arguments on the stack')
-
-	return stack[0]
+def calculate(myarg):
+    stack = list()
+    for token in myarg.split():
+        try:
+            token = int(token)
+            stack.append(token)
+        except ValueError:
+            function = operators[token]
+            arg2 = stack.pop()
+            arg1 = stack.pop()
+            result = function(arg1, arg2)
+            stack.append(result)
+        print(stack)
+    if len(stack) != 1:
+        raise TypeError("Too many parameters")
+    return stack.pop()
 
 def main():
-	while True:
-		try: 
-			result = calculate(input("rpn calc> "))
-			print(result)
-		except ValueError:
-			pass
+    while True:
+        result = calculate(input("rpn calc> "))
+        print("Result: ", result)
 
-if __name__ == '__main__': # Note: that's "underscore underscore n a m e ..."
-	main()
+if __name__ == '__main__':
+    main()
