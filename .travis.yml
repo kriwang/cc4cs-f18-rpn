@@ -3,3 +3,6 @@ python:
   - "3.6"
 # command to run tests
 script: make test
+
+# coveralls repo token
+repo_token: pS7mNOOFu5EF5MxxMIS0V0MzopVg5rLEN
